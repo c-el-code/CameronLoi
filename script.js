@@ -64,7 +64,7 @@ function fillDies(key, animate) {
     }
     const btn = document.createElement('button');
     btn.type = 'button';
-    btn.className = 'die' + (animate ? ' entering' : '');
+    btn.className = 'die' + (die.logo ? ' has-logo' : '') + (animate ? ' entering' : '');
     btn.style.animationDelay = `${i * 30}ms`;
     btn.title = die.title;
     btn.setAttribute('aria-label', `Inspect ${die.title}`);
@@ -90,13 +90,6 @@ function updateHint() {
   hint.classList.remove('swap');
   void hint.offsetWidth;
   hint.classList.add('swap');
-}
-
-function setScale() {
-  const w = $('grid').offsetWidth;
-  const gap = 0.0055 * (w / 1.08);
-  const cell = (w - (SIZE - 1) * gap) / SIZE;
-  $('grid').style.setProperty('--s', ((cell - 4) / 400).toFixed(5));
 }
 
 function fitText() {
@@ -284,14 +277,12 @@ buildWafer();
 buildDock();
 applyTabs(current);
 applyTheme(current);
-setScale();
 fillDies(current, false);
 updateHint();
 bind();
 document.fonts.ready.then(fitText);
 let resizeTimer;
 window.addEventListener('resize', () => {
-  setScale();
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(fitText, 150);
 });

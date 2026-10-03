@@ -68,8 +68,8 @@ svg { display: block; }
 
 /* die grid */
 .grid { position: absolute; inset: 12px; z-index: 10; display: flex; align-items: center; justify-content: center; border-radius: 50%; overflow: hidden; container-type: inline-size; }
-.grid-inner { flex: none; width: 108cqw; display: grid; grid-template-columns: repeat(17, 1fr); gap: .55cqw; }
-.stage.zoomed { --z: 4; }
+.grid-inner { flex: none; width: 117cqw; display: grid; grid-template-columns: repeat(17, 1fr); gap: .6cqw; }
+.stage.zoomed { --z: 3.69; }
 @media (min-width: 640px) { .grid { inset: 16px; } }
 .cell { container-type: inline-size; position: relative; aspect-ratio: 1 / .92; border-radius: 12%; background: rgba(255, 255, 255, .45); border: 1px solid rgba(203, 213, 225, .4); }
 .grid-debug .cell::after { content: attr(data-pos); position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font: 500 22cqw 'JetBrains Mono', monospace; color: #64748b; }
@@ -79,21 +79,23 @@ svg { display: block; }
 .die:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
 .die.entering { animation: rise .32s ease backwards; }
 @keyframes rise { from { opacity: 0; transform: translateY(6px) scale(.97); } }
-.die-inner { position: absolute; left: 0; top: 0; width: 400px; height: 368px; container-type: inline-size; transform-origin: 0 0; transform: scale(var(--s, .04)); }
+.die-inner { position: absolute; left: 0; top: 0; width: 400px; height: 368px; container-type: inline-size; transform-origin: 0 0; transform: scale(tan(atan2(100cqw - 2px, 400px))); }
 .die-body { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 6cqw; }
 .die-top { display: flex; align-items: center; justify-content: space-between; width: 100%; }
-.die-code { min-width: 0; font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: calc(9cqw * var(--fit, 1)); line-height: 1.2; letter-spacing: -.025em; color: #64748b; text-wrap: balance; }
+.die-code { min-width: 0; font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: calc(10.5cqw * var(--fit, 1)); line-height: 1.2; letter-spacing: -.025em; color: #64748b; text-wrap: balance; }
 .die-text { margin: auto 0; min-width: 0; }
-.die-title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: calc(12cqw * var(--fit, 1)); font-weight: 700; color: #000; line-height: 1.2; }
+.die-title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: calc(13.5cqw * var(--fit, 1)); font-weight: 700; color: #000; line-height: 1.2; }
+.die.has-logo .die-text { margin: 3cqw 0 auto; }
+.die.has-logo .die-title { -webkit-line-clamp: 1; }
 .die-sub { display: none; font-size: calc(7.5cqw * var(--fit, 1)); color: #64748b; line-height: 1.3; margin-top: 4%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-@media (min-width: 640px) { .die-code { font-size: calc(7.5cqw * var(--fit, 1)); } .die-title { font-size: calc(10cqw * var(--fit, 1)); } .die-sub { display: block; } }
+@media (min-width: 640px) { .die-code { font-size: calc(8.8cqw * var(--fit, 1)); } .die-title { font-size: calc(11.5cqw * var(--fit, 1)); } .die-sub { display: block; } }
 .die-logo {
     position: absolute;
     z-index: 1;
     left: 50%;
     top: 50%;
-    width: 80cqw;
-    height: 60cqw;
+    width: 86cqw;
+    height: 66cqw;
     object-fit: contain;
     object-position: center;
     transform: translate(-50%, -50%);

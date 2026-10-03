@@ -14,7 +14,7 @@ const SITE = {
   photo: "images/CPhoto.JPG",
   role: "Nanotechnology Engineer",
   headline: "Nanotechnology Engineering @ University of Waterloo",
-  summary: "I'm interested in semiconductor processes, hardware systems, and building things from the ground up. I enjoy working hands on across hardware and software, from developing electronics and exploring fabrication processes to building the software and UI. I'm also interested in the business side of technology and turning technical ideas into useful products.",
+  summary: "I’m interested in semiconductor processes and enjoy building things from hardware to software and UI. I also enjoy the business side of technology and turning technical ideas into useful products.",
   email: "camerondotel@gmail.com",
   linkedin: "https://linkedin.com/in/cameron-loi"
 };
