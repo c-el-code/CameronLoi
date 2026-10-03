@@ -10,8 +10,7 @@ let zoomed = false;
 let zoomUsed = false;
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
-const HINT_OUT = 'Zoom in to see more!';
-const HINT_IN = 'Click any chip to open it.';
+const FIT_PARTS = ['.die-title', '.die-code', '.die-sub'];
 
 function setText() {
   document.title = `${SITE.name} | ${SITE.role}`;
@@ -71,10 +70,47 @@ function fillDies(key, animate) {
     btn.setAttribute('aria-label', `Inspect ${die.title}`);
     const logo = die.logo ? `<img class="die-logo" src="${die.logo}" alt="" loading="lazy" onerror="this.remove()">` : '';
     btn.innerHTML = `
-      <span class="die-top"><span class="die-code">${die.code}</span>${logo}</span>
-      <span class="die-text"><span class="die-title">${die.title}</span><span class="die-sub">${die.subtitle || ''}</span></span>`;
+      <span class="die-inner"><span class="die-body">
+        <span class="die-top"><span class="die-code">${die.code}</span>${logo}</span>
+        <span class="die-text"><span class="die-title">${die.title}</span><span class="die-sub">${die.subtitle || ''}</span></span>
+      </span></span>`;
     btn.addEventListener('click', () => (zoomed ? openProject(die) : setZoom(true)));
     cell.appendChild(btn);
+  });
+  fitText();
+}
+
+function updateHint() {
+  const noun = WAFERS[current].label.toLowerCase();
+  const text = zoomed ? `Click any chip to inspect my ${noun}.` : `Zoom in to inspect my ${noun}!`;
+  const hint = $('scope-hint');
+  hint.classList.toggle('can-zoom', !zoomed);
+  if (hint.textContent === text) return;
+  hint.textContent = text;
+  hint.classList.remove('swap');
+  void hint.offsetWidth;
+  hint.classList.add('swap');
+}
+
+function setScale() {
+  const w = $('grid').offsetWidth;
+  const gap = 0.0055 * (w / 1.08);
+  const cell = (w - (SIZE - 1) * gap) / SIZE;
+  $('grid').style.setProperty('--s', ((cell - 4) / 400).toFixed(5));
+}
+
+function fitText() {
+  document.querySelectorAll('.die').forEach((die) => {
+    FIT_PARTS.forEach((sel) => {
+      const el = die.querySelector(sel);
+      if (!el) return;
+      el.style.removeProperty('--fit');
+      let fit = 1;
+      while (fit > 0.45 && (el.scrollWidth > el.clientWidth + 1 || el.scrollHeight > el.clientHeight + 1)) {
+        fit -= 0.04;
+        el.style.setProperty('--fit', fit.toFixed(2));
+      }
+    });
   });
 }
 
@@ -83,7 +119,7 @@ function setZoom(on) {
   if (on) zoomUsed = true;
   $('stage').classList.toggle('zoomed', on);
   $('scope').classList.toggle('nudge', !zoomUsed);
-  $('scope-hint').textContent = on ? HINT_IN : HINT_OUT;
+  updateHint();
   document.querySelectorAll('.scope-btn').forEach((btn) => {
     const active = (btn.dataset.zoom === '1') === on;
     btn.classList.toggle('on', active);
@@ -94,6 +130,7 @@ function setZoom(on) {
 async function switchWafer(key, step) {
   if (key === current || switching) return;
   switching = true;
+  $('dock').classList.remove('nudge');
   const dir = step || (keys.indexOf(key) > keys.indexOf(current) ? 1 : -1);
   const quick = reduceMotion();
   applyTabs(key);
@@ -114,6 +151,7 @@ async function switchWafer(key, step) {
     ).finished;
   }
   current = key;
+  updateHint();
   applyTheme(key);
   fillDies(key, false);
   if (!quick) {
@@ -231,6 +269,7 @@ function bind() {
   document.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', closeOverlays));
   document.querySelectorAll('.overlay').forEach((el) => el.addEventListener('click', (e) => e.target === el && closeOverlays()));
   document.querySelectorAll('.scope-btn').forEach((btn) => btn.addEventListener('click', () => setZoom(btn.dataset.zoom === '1')));
+  $('scope-hint').addEventListener('click', () => !zoomed && setZoom(true));
   $('email-row').addEventListener('click', copyEmail);
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeOverlays();
@@ -245,7 +284,15 @@ buildWafer();
 buildDock();
 applyTabs(current);
 applyTheme(current);
+setScale();
 fillDies(current, false);
-$('scope-hint').textContent = HINT_OUT;
+updateHint();
 bind();
+document.fonts.ready.then(fitText);
+let resizeTimer;
+window.addEventListener('resize', () => {
+  setScale();
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(fitText, 150);
+});
 if (new URLSearchParams(location.search).has('grid')) $('grid').classList.add('grid-debug');
