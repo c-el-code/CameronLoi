@@ -301,7 +301,7 @@ function openProject(die) {
   });
   $('p-tags-title').textContent = isSkill ? 'Skills' : 'Skills used';
   $('p-tags-wrap').hidden = !(die.tags || []).length;
-  $('p-tags').innerHTML = (die.tags || []).map((t) => `<span>${badgeHtml(t)}${t}</span>`).join('');
+  $('p-tags').innerHTML = (die.tags || []).map((t) => `<span>${t}</span>`).join('');
   const photo = $('p-photo');
   if (die.image) {
     photo.innerHTML = '';

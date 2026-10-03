@@ -42,7 +42,7 @@ svg { display: block; }
 
 /* wafer */
 .stage { position: relative; container-type: inline-size; width: 93%; max-width: 680px; aspect-ratio: 1; margin: 4px 0; user-select: none; --z: 1; --glow: 99, 102, 241, .16; }
-@media (min-width: 1024px) { .stage { max-width: 660px; } }
+@media (min-width: 1024px) { .stage { max-width: 640px; } }
 .halo { position: absolute; inset: 0; border-radius: 50%; pointer-events: none; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .03), 0 24px 54px -8px rgba(15, 23, 42, .09), 0 40px 90px -15px rgba(var(--glow)); transition: box-shadow .5s ease, opacity .5s ease; }
 .stage.zoomed .halo { opacity: 0; }
 .viewport { position: absolute; inset: 0; perspective: 3200px; isolation: isolate; overflow: hidden; border-radius: 50%; clip-path: circle(50% at 50% 50%); }
