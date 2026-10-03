@@ -11,47 +11,61 @@ let zoomUsed = false;
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 const FIT_PARTS = ['.die-title', '.die-code', '.die-sub'];
-const TAG_ICONS = {
-  'Python': 'images/logos/skills/python.svg',
-  'MATLAB': 'images/logos/skills/matlab.svg',
-  'French (Proficient)': 'images/logos/skills/french.svg',
-  'CAD (SolidWorks)': 'images/logos/skills/solidworks.svg',
-  'Microsoft Office (Excel, Word, PowerPoint)': 'images/logos/skills/microsoft.svg',
-  'Power BI': 'images/logos/skills/powerbi.svg',
-  'Firebase': 'images/logos/skills/firebase.svg',
-  'Vercel': 'images/logos/skills/vercel.svg',
-  'Git': 'images/logos/skills/git.svg',
-  'KiCad': 'images/logos/skills/kicad.svg',
-  'ESP32': 'images/logos/skills/espressif.svg',
-  'React': 'images/logos/skills/react.svg',
-  'C++': 'images/logos/skills/cplusplus.svg'
+const BADGES = {
+  'Python': ['Py', '#3776ab'],
+  'MATLAB': ['ML', '#e16919'],
+  'French (Proficient)': 'flag',
+  'CAD (SolidWorks)': ['SW', '#d4202a'],
+  'Microsoft Office (Excel, Word, PowerPoint)': ['Of', '#d83b01'],
+  'Power BI': ['BI', '#f2c811', '#1a1a1a'],
+  'Firebase': ['Fb', '#ffa000', '#1a1a1a'],
+  'Vercel': ['V', '#000000'],
+  'Git': ['Git', '#f05032'],
+  'KiCad': ['Ki', '#314cb6'],
+  'ESP32': ['ESP', '#e7352c'],
+  'React': ['Re', '#20232a', '#61dafb'],
+  'C++': ['C++', '#00599c']
 };
 const CATEGORY_ICONS = {
-  'Circuits': 'images/logos/skills/circuits.svg',
-  'Semiconductor': 'images/logos/skills/semiconductor.svg',
-  'Microfabrication': 'images/logos/skills/microfab.svg',
-  'Characterization': 'images/logos/skills/characterization.svg',
-  'Materials': 'images/logos/skills/materials.svg',
-  'Machining': 'images/logos/skills/machining.svg'
+  'Circuits': ['#0ea5e9', '<path d="M3 12h4l2-6 4 12 2-6h6"/>'],
+  'Semiconductor': ['#475569', '<rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/>'],
+  'Microfabrication': ['#7c3aed', '<circle cx="12" cy="12" r="9"/><path d="M5.6 8.5h12.8M4 12h16M5.6 15.5h12.8M9 4v16M15 4v16"/>'],
+  'Characterization': ['#0d9488', '<circle cx="11" cy="11" r="6"/><path d="M16 16l5 5"/>'],
+  'Materials': ['#b45309', '<path d="M12 3l9 5-9 5-9-5zM3 12l9 5 9-5M3 16l9 5 9-5"/>'],
+  'Machining': ['#334155', '<circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2.2"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M18.7 5.3l-1.8 1.8M7.1 16.9l-1.8 1.8"/>']
 };
 
-function tagIcon(tag) {
-  return TAG_ICONS[tag] || '';
+function badgeHtml(tag) {
+  const b = BADGES[tag];
+  if (!b) return '';
+  if (b === 'flag') return '<i class="ic ic-flag" aria-hidden="true"></i>';
+  const [text, bg, fg] = b;
+  return `<i class="ic" aria-hidden="true" style="--bg:${bg};--fg:${fg || '#fff'};--n:${text.length}"><b>${text}</b></i>`;
+}
+
+function categoryHtml(title) {
+  const c = CATEGORY_ICONS[title];
+  return c ? `<i class="ic ic-cat" aria-hidden="true" style="--bg:${c[0]}"><svg viewBox="0 0 24 24">${c[1]}</svg></i>` : '';
+}
+
+function iconsHtml(items) {
+  return `<span class="die-icons" data-n="${items.length}">${items.join('')}</span>`;
+}
+
+function imgHtml(src, cls) {
+  return `<img class="${cls}" src="${src}" alt="" loading="lazy" onerror="this.remove()">`;
 }
 
 function dieMarks(die, wafer) {
   if (wafer === 'skills') {
-    const icons = (die.tags || []).map(tagIcon).filter(Boolean).slice(0, 4);
-    if (icons.length) return { kind: 'icons', srcs: icons };
-    if (CATEGORY_ICONS[die.title]) return { kind: 'logo', srcs: [CATEGORY_ICONS[die.title]] };
+    const badges = (die.tags || []).map(badgeHtml).filter(Boolean).slice(0, 4);
+    if (badges.length) return { kind: 'icons', html: iconsHtml(badges) };
+    const cat = categoryHtml(die.title);
+    if (cat) return { kind: 'icons', html: iconsHtml([cat]) };
   }
-  if (die.logo) return { kind: 'logo', srcs: [die.logo] };
-  if (die.image) return { kind: 'photo', srcs: [die.image] };
-  return { kind: '', srcs: [] };
-}
-
-function markHtml(srcs, cls) {
-  return srcs.map((src) => `<img class="${cls}" src="${src}" alt="" loading="lazy" onerror="this.remove()">`).join('');
+  if (die.logo) return { kind: 'logo', html: imgHtml(die.logo, 'die-logo') };
+  if (die.image) return { kind: 'photo', html: imgHtml(die.image, 'die-logo') + imgHtml(die.image, 'die-thumb') };
+  return { kind: '', html: '' };
 }
 
 function setText() {
@@ -130,12 +144,9 @@ function fillDies(key, animate) {
     btn.style.animationDelay = `${i * 30}ms`;
     btn.title = die.title;
     btn.setAttribute('aria-label', `Inspect ${die.title}`);
-    const logo = marks.kind === 'icons'
-      ? `<span class="die-icons">${markHtml(marks.srcs, 'die-icon')}</span>`
-      : markHtml(marks.srcs, 'die-logo');
     btn.innerHTML = `
       <span class="die-inner"><span class="die-body">
-        <span class="die-top"><span class="die-code">${die.code}</span>${logo}</span>
+        <span class="die-top"><span class="die-code">${die.code}</span>${marks.html}</span>
         <span class="die-text"><span class="die-title">${die.title}</span><span class="die-sub">${die.subtitle || ''}</span></span>
       </span></span>`;
     btn.addEventListener('click', () => (zoomed ? openProject(die) : setZoom(true)));
@@ -168,7 +179,7 @@ function fitText() {
       const el = die.querySelector(sel);
       if (!el) return;
       el.style.removeProperty('--fit');
-      const maxLines = sel === '.die-title' ? (die.classList.contains('has-logo') || die.classList.contains('has-icons') ? 1 : 2) : 99;
+      const maxLines = sel === '.die-title' ? (die.classList.contains('has-logo') || die.classList.contains('has-icons') || die.classList.contains('has-photo') ? 1 : 2) : 99;
       let fit = 1;
       while (fit > 0.45 && isClipped(el, maxLines)) {
         fit -= 0.04;
@@ -284,10 +295,7 @@ function openProject(die) {
   });
   $('p-tags-title').textContent = isSkill ? 'Skills' : 'Skills used';
   $('p-tags-wrap').hidden = !(die.tags || []).length;
-  $('p-tags').innerHTML = (die.tags || []).map((t) => {
-    const icon = tagIcon(t);
-    return `<span>${icon ? `<img src="${icon}" alt="">` : ''}${t}</span>`;
-  }).join('');
+  $('p-tags').innerHTML = (die.tags || []).map((t) => `<span>${badgeHtml(t)}${t}</span>`).join('');
   const photo = $('p-photo');
   if (die.image) {
     photo.innerHTML = '';
