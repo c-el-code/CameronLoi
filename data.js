@@ -59,7 +59,7 @@ const WAFERS = {
         title: "Action-2-Action",
         subtitle: "1st Place Hackathon",
         period: "Sep 2025",
-        image: "",
+        image: "images/A2A.png",
         what: `Placed 1st at the TechTO x Penseum Hackathon and won a $1000 award.
 Hands-free gesture, voice, and eye tracking control system for healthcare, productivity, and presentations.`,
         how: "",
