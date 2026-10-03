@@ -116,6 +116,7 @@ Web app mapping optimal sponge park locations for the City of Toronto to address
         subtitle: "2nd Place Competition",
         period: "Nov 2024",
         image: "images/TENG.png",
+        logo: "images/logos/C2MI.png",
         what: `Placed 2nd out of 23 teams at the UW Design Clinic.
 Designed and constructed a Triboelectric Nanogenerator (TENG) that generated electrical output from mechanical motion using contact electrification. The final prototype produced 3.4 V at 45 Hz.`,
         how: "",
