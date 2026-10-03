@@ -31,6 +31,7 @@ const WAFERS = {
         subtitle: "IoT Device",
         period: "Apr 2026 - Present",
         image: "images/Cadence.png",
+        logo: "images/Cadence.png",
         what: "Full-stack medication and habit tracker combining C++ embedded firmware on an ESP32 with a React web dashboard, synchronized in real time via Google Firebase Firestore.",
         how: `- Developed an animated GUI from scratch on a 1.69" TFT display with animated icons
 - iPhone push notifications via Apple Shortcuts, WiFi data sync, offline flash memory persistence, and OTA firmware updates
@@ -116,7 +117,6 @@ Web app mapping optimal sponge park locations for the City of Toronto to address
         subtitle: "2nd Place Competition",
         period: "Nov 2024",
         image: "images/TENG.png",
-        logo: "images/logos/C2MI.png",
         what: `Placed 2nd out of 23 teams at the UW Design Clinic.
 Designed and constructed a Triboelectric Nanogenerator (TENG) that generated electrical output from mechanical motion using contact electrification. The final prototype produced 3.4 V at 45 Hz.`,
         how: "",
