@@ -27,12 +27,14 @@ const BADGES = {
   'C++': ['C++', '#00599c']
 };
 const CATEGORY_ICONS = {
-  'Circuits': ['#0ea5e9', '<path d="M3 12h4l2-6 4 12 2-6h6"/>'],
-  'Semiconductor': ['#475569', '<rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/>'],
-  'Microfabrication': ['#7c3aed', '<circle cx="12" cy="12" r="9"/><path d="M5.6 8.5h12.8M4 12h16M5.6 15.5h12.8M9 4v16M15 4v16"/>'],
-  'Characterization': ['#0d9488', '<circle cx="11" cy="11" r="6"/><path d="M16 16l5 5"/>'],
-  'Materials': ['#b45309', '<path d="M12 3l9 5-9 5-9-5zM3 12l9 5 9-5M3 16l9 5 9-5"/>'],
-  'Machining': ['#334155', '<circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2.2"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M18.7 5.3l-1.8 1.8M7.1 16.9l-1.8 1.8"/>']
+  'Languages': '<path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/>',
+  'Software & Tools': '<path d="M13 7 8.7 2.7a2.41 2.41 0 0 0-3.4 0L2.7 5.3a2.41 2.41 0 0 0 0 3.4L7 13"/><path d="m8 6 2-2"/><path d="m18 16 2-2"/><path d="m17 11 4.3 4.3c.94.94.94 2.46 0 3.4l-2.6 2.6c-.94.94-2.46.94-3.4 0L11 17"/><path d="M21.17 6.81a1 1 0 0 0-3.99-3.99L3.84 16.17a2 2 0 0 0-.5.83l-1.32 4.35a.5.5 0 0 0 .62.62l4.35-1.32a2 2 0 0 0 .83-.5z"/><path d="m15 5 4 4"/>',
+  'Circuits': '<path d="M2 12h3c1.2 0 1.8-1 2.6-4.2.8-3.2 1.7-4.3 2.6-1.4 1.3 4.3 2.2 13.2 3.6 13.2.9 0 1.3-3.4 1.8-5.8.3-1.3.8-1.8 1.6-1.8H22"/>',
+  'Semiconductor': '<rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/>',
+  'Microfabrication': '<path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>',
+  'Characterization': '<path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/>',
+  'Materials': '<circle cx="12" cy="12" r="1"/><path d="M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03-.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z"/><path d="M15.7 15.7c4.52-4.54 6.54-9.87 4.5-11.9-2.03-2.04-7.36-.02-11.9 4.5-4.52 4.54-6.54 9.87-4.5 11.9 2.03 2.04 7.36.02 11.9-4.5Z"/>',
+  'Machining': '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>'
 };
 
 function badgeHtml(tag) {
@@ -44,8 +46,8 @@ function badgeHtml(tag) {
 }
 
 function categoryHtml(title) {
-  const c = CATEGORY_ICONS[title];
-  return c ? `<i class="ic ic-cat" aria-hidden="true" style="--bg:${c[0]}"><svg viewBox="0 0 24 24">${c[1]}</svg></i>` : '';
+  const p = CATEGORY_ICONS[title];
+  return p ? `<i class="ic ic-cat" aria-hidden="true"><svg viewBox="0 0 24 24">${p}</svg></i>` : '';
 }
 
 function iconsHtml(items) {
@@ -58,10 +60,10 @@ function imgHtml(src, cls) {
 
 function dieMarks(die, wafer) {
   if (wafer === 'skills') {
-    const badges = (die.tags || []).map(badgeHtml).filter(Boolean).slice(0, 4);
-    if (badges.length) return { kind: 'icons', html: iconsHtml(badges) };
     const cat = categoryHtml(die.title);
     if (cat) return { kind: 'icons', html: iconsHtml([cat]) };
+    const badges = (die.tags || []).map(badgeHtml).filter(Boolean).slice(0, 4);
+    if (badges.length) return { kind: 'icons', html: iconsHtml(badges) };
   }
   if (die.logo) return { kind: 'logo', html: imgHtml(die.logo, 'die-logo') };
   if (die.image) return { kind: 'photo', html: imgHtml(die.image, 'die-logo') + imgHtml(die.image, 'die-thumb') };
