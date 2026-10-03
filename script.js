@@ -20,7 +20,6 @@ function setText() {
   $('hero-headline').textContent = SITE.headline;
   $('hero-summary').textContent = SITE.summary;
   $('hero-photo').src = SITE.photo;
-  $('c-title').textContent = `Contact ${SITE.name}`;
   $('email-value').textContent = SITE.email;
   $('linkedin-value').textContent = SITE.linkedin.replace(/^https?:\/\//, '');
   $('linkedin-row').href = SITE.linkedin;
