@@ -11,6 +11,48 @@ let zoomUsed = false;
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 const FIT_PARTS = ['.die-title', '.die-code', '.die-sub'];
+const TAG_ICONS = {
+  'Python': 'images/logos/skills/python.svg',
+  'MATLAB': 'images/logos/skills/matlab.svg',
+  'French (Proficient)': 'images/logos/skills/french.svg',
+  'CAD (SolidWorks)': 'images/logos/skills/solidworks.svg',
+  'Microsoft Office (Excel, Word, PowerPoint)': 'images/logos/skills/microsoft.svg',
+  'Power BI': 'images/logos/skills/powerbi.svg',
+  'Firebase': 'images/logos/skills/firebase.svg',
+  'Vercel': 'images/logos/skills/vercel.svg',
+  'Git': 'images/logos/skills/git.svg',
+  'KiCad': 'images/logos/skills/kicad.svg',
+  'ESP32': 'images/logos/skills/espressif.svg',
+  'React': 'images/logos/skills/react.svg',
+  'C++': 'images/logos/skills/cplusplus.svg'
+};
+const CATEGORY_ICONS = {
+  'Circuits': 'images/logos/skills/circuits.svg',
+  'Semiconductor': 'images/logos/skills/semiconductor.svg',
+  'Microfabrication': 'images/logos/skills/microfab.svg',
+  'Characterization': 'images/logos/skills/characterization.svg',
+  'Materials': 'images/logos/skills/materials.svg',
+  'Machining': 'images/logos/skills/machining.svg'
+};
+
+function tagIcon(tag) {
+  return TAG_ICONS[tag] || '';
+}
+
+function dieMarks(die, wafer) {
+  if (wafer === 'skills') {
+    const icons = (die.tags || []).map(tagIcon).filter(Boolean).slice(0, 4);
+    if (icons.length) return { kind: 'icons', srcs: icons };
+    if (CATEGORY_ICONS[die.title]) return { kind: 'logo', srcs: [CATEGORY_ICONS[die.title]] };
+  }
+  if (die.logo) return { kind: 'logo', srcs: [die.logo] };
+  if (die.image) return { kind: 'photo', srcs: [die.image] };
+  return { kind: '', srcs: [] };
+}
+
+function markHtml(srcs, cls) {
+  return srcs.map((src) => `<img class="${cls}" src="${src}" alt="" loading="lazy" onerror="this.remove()">`).join('');
+}
 
 function setText() {
   document.title = `${SITE.name} | ${SITE.role}`;
@@ -81,13 +123,16 @@ function fillDies(key, animate) {
       console.warn(`${die.code}: row ${die.row}, col ${die.col} is not on the grid`);
       return;
     }
+    const marks = dieMarks(die, key);
     const btn = document.createElement('button');
     btn.type = 'button';
-    btn.className = 'die' + (die.logo ? ' has-logo' : '') + (animate ? ' entering' : '');
+    btn.className = 'die' + (marks.kind ? ` has-${marks.kind}` : '') + (animate ? ' entering' : '');
     btn.style.animationDelay = `${i * 30}ms`;
     btn.title = die.title;
     btn.setAttribute('aria-label', `Inspect ${die.title}`);
-    const logo = die.logo ? `<img class="die-logo" src="${die.logo}" alt="" loading="lazy" onerror="this.remove()">` : '';
+    const logo = marks.kind === 'icons'
+      ? `<span class="die-icons">${markHtml(marks.srcs, 'die-icon')}</span>`
+      : markHtml(marks.srcs, 'die-logo');
     btn.innerHTML = `
       <span class="die-inner"><span class="die-body">
         <span class="die-top"><span class="die-code">${die.code}</span>${logo}</span>
@@ -123,7 +168,7 @@ function fitText() {
       const el = die.querySelector(sel);
       if (!el) return;
       el.style.removeProperty('--fit');
-      const maxLines = sel === '.die-title' ? (die.classList.contains('has-logo') ? 1 : 2) : 99;
+      const maxLines = sel === '.die-title' ? (die.classList.contains('has-logo') || die.classList.contains('has-icons') ? 1 : 2) : 99;
       let fit = 1;
       while (fit > 0.45 && isClipped(el, maxLines)) {
         fit -= 0.04;
@@ -239,7 +284,10 @@ function openProject(die) {
   });
   $('p-tags-title').textContent = isSkill ? 'Skills' : 'Skills used';
   $('p-tags-wrap').hidden = !(die.tags || []).length;
-  $('p-tags').innerHTML = (die.tags || []).map((t) => `<span>${t}</span>`).join('');
+  $('p-tags').innerHTML = (die.tags || []).map((t) => {
+    const icon = tagIcon(t);
+    return `<span>${icon ? `<img src="${icon}" alt="">` : ''}${t}</span>`;
+  }).join('');
   const photo = $('p-photo');
   if (die.image) {
     photo.innerHTML = '';

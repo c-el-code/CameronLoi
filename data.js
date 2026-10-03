@@ -31,7 +31,6 @@ const WAFERS = {
         subtitle: "IoT Device",
         period: "Apr 2026 - Present",
         image: "images/Cadence.png",
-        logo: "images/logos/Cadence.png",
         what: "Full-stack medication and habit tracker combining C++ embedded firmware on an ESP32 with a React web dashboard, synchronized in real time via Google Firebase Firestore.",
         how: `- Developed an animated GUI from scratch on a 1.69" TFT display with animated icons
 - iPhone push notifications via Apple Shortcuts, WiFi data sync, offline flash memory persistence, and OTA firmware updates
