@@ -111,14 +111,21 @@ function updateHint() {
   hint.classList.add('swap');
 }
 
+function isClipped(el, maxLines) {
+  if (el.scrollWidth > el.clientWidth + 1) return true;
+  const line = parseFloat(getComputedStyle(el).lineHeight);
+  return el.scrollHeight > line * (maxLines + 0.5);
+}
+
 function fitText() {
   document.querySelectorAll('.die').forEach((die) => {
     FIT_PARTS.forEach((sel) => {
       const el = die.querySelector(sel);
       if (!el) return;
       el.style.removeProperty('--fit');
+      const maxLines = sel === '.die-title' ? (die.classList.contains('has-logo') ? 1 : 2) : 99;
       let fit = 1;
-      while (fit > 0.45 && (el.scrollWidth > el.clientWidth + 1 || el.scrollHeight > el.clientHeight + 1)) {
+      while (fit > 0.45 && isClipped(el, maxLines)) {
         fit -= 0.04;
         el.style.setProperty('--fit', fit.toFixed(2));
       }
