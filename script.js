@@ -36,7 +36,7 @@ function buildWafer() {
 }
 
 function buildDock() {
-  $('tabs').innerHTML = keys
+  $('tabs').innerHTML = '<span class="thumb" id="tab-pill"></span>' + keys
     .map((k) => `
       <button class="tab" data-wafer="${k}">
         <span class="mini mini-${k}"><span class="sheen sheen-${k}"></span><span class="mini-cells">${'<i></i>'.repeat(9)}</span></span>
@@ -47,6 +47,25 @@ function buildDock() {
 
 function applyTabs(key) {
   document.querySelectorAll('.tab').forEach((el) => el.classList.toggle('on', el.dataset.wafer === key));
+  $('dock-count').textContent = `${keys.indexOf(key) + 1} of ${keys.length}`;
+  $('controls').dataset.wafer = key;
+  movePill();
+}
+
+function moveScopePill() {
+  const btn = document.querySelector('.scope-btn.on');
+  const pill = $('scope-pill');
+  if (!btn || !pill) return;
+  pill.style.setProperty('--x', `${btn.offsetLeft}px`);
+  pill.style.setProperty('--w', `${btn.offsetWidth}px`);
+}
+
+function movePill() {
+  const tab = document.querySelector('.tab.on');
+  const pill = $('tab-pill');
+  if (!tab || !pill) return;
+  pill.style.setProperty('--x', `${tab.offsetLeft}px`);
+  pill.style.setProperty('--w', `${tab.offsetWidth}px`);
 }
 
 function applyTheme(key) {
@@ -118,6 +137,7 @@ function setZoom(on) {
     btn.classList.toggle('on', active);
     btn.setAttribute('aria-pressed', active);
   });
+  moveScopePill();
 }
 
 async function switchWafer(key, step) {
@@ -280,10 +300,18 @@ applyTheme(current);
 fillDies(current, false);
 updateHint();
 bind();
-document.fonts.ready.then(fitText);
+document.fonts.ready.then(() => {
+  fitText();
+  movePill();
+  moveScopePill();
+});
+moveScopePill();
+requestAnimationFrame(() => document.querySelectorAll('.thumb').forEach((t) => t.classList.add('ready')));
 let resizeTimer;
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimer);
+  movePill();
+  moveScopePill();
   resizeTimer = setTimeout(fitText, 150);
 });
 if (new URLSearchParams(location.search).has('grid')) $('grid').classList.add('grid-debug');
