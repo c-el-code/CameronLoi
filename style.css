@@ -50,8 +50,8 @@ svg { display: block; }
 .wafer-rim { width: 100%; height: 100%; padding: 2.5px; border-radius: 50%; background: linear-gradient(to bottom, #e3e6ec, #cbd2de, #9fa8b8); box-shadow: inset 0 2px 10px rgba(255, 255, 255, .6); transform: scale(var(--z)); transform-origin: 50% 50%; transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
 .stage[data-aura="experience"] { --glow: 16, 185, 129, .22; }
 .stage[data-aura="skills"] { --glow: 234, 179, 8, .2; }
-.stage { --focus-blur: 1.5px; }
-.stage.zoomed .viewport { animation: focus .9s ease-out; }
+.stage { --focus-blur: 1.4px; }
+.stage.zoomed .viewport { animation: focus .7s ease-out; }
 @keyframes focus { from { filter: blur(var(--focus-blur)); } to { filter: blur(0); } }
 .stage.flipping .sheen { transition: none; }
 .wafer { position: relative; width: 100%; height: 100%; border-radius: 50%; overflow: hidden; padding: 12px; border: 1px solid rgba(0, 0, 0, .05); background-image: repeating-radial-gradient(circle at 50% 50%, transparent 0, transparent 40px, rgba(148, 163, 184, .05) 41px, transparent 42px); }
@@ -107,7 +107,7 @@ svg { display: block; }
 }
 .die-icons { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4cqw; }
 .die-icons .ic { font-size: 26cqw; }
-.die-icons[data-n="1"] .ic { font-size: 44cqw; }
+.die-icons[data-n="1"] .ic { font-size: 50cqw; }
 .die-icons[data-n="2"] .ic { font-size: 34cqw; }
 .die-icons[data-n="3"] .ic { font-size: 24cqw; }
 .die.has-photo .die-logo { left: 0; top: 0; width: 100%; height: 100%; transform: none; object-fit: contain; object-position: center; }
@@ -116,16 +116,16 @@ svg { display: block; }
     left: 100%;
     top: 100%;
     width: 60cqw;
-    height: 22cqw;
+    height: 34cqw;
     object-position: right top;
     transform: translate(calc(-100% - 6cqw), calc(-100% - 6cqw));
 }
 .stage.zoomed .die-icons { justify-content: flex-end; align-items: flex-end; gap: 2cqw; }
 .stage.zoomed .die-icons .ic { font-size: 10cqw; }
-.stage.zoomed .die-icons[data-n="1"] .ic { font-size: 12cqw; }
+.stage.zoomed .die-icons[data-n="1"] .ic { font-size: 27cqw; }
 .stage.zoomed .die.has-photo .die-logo { left: 0; top: 0; width: 100%; height: 100%; transform: none; opacity: 0; }
 .stage.zoomed .die-thumb { opacity: 1; transition-delay: .3s; }
-@media (min-width: 640px) { .stage.zoomed .die-logo, .stage.zoomed .die-icons { width: calc(62cqw * var(--ts)); height: calc(23cqw * var(--ts)); transform: translate(calc(-100% - 5cqw), calc(-100% - 5cqw)); } .die-thumb { right: 5cqw; bottom: 5cqw; width: calc(40cqw * var(--ts)); height: calc(25cqw * var(--ts)); } }
+@media (min-width: 640px) { .stage.zoomed .die-logo, .stage.zoomed .die-icons { width: calc(62cqw * var(--ts)); height: calc(34cqw * var(--ts)); transform: translate(calc(-100% - 5cqw), calc(-100% - 5cqw)); } .die-thumb { right: 5cqw; bottom: 5cqw; width: calc(40cqw * var(--ts)); height: calc(25cqw * var(--ts)); } }
 .die-code, .die-text { opacity: 0; transition: opacity .4s ease; }
 .stage.zoomed .die-code, .stage.zoomed .die-text { opacity: 1; transition-delay: .3s; }
 

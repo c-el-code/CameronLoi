@@ -5,6 +5,7 @@
   description   paragraph for Experience and Skills chips. Defaults to what + how + why.
   heading       popup title when it should differ from the short chip title.
   role          popup line under the title. Defaults to subtitle.
+  icon          (Skills chips only, optional) force an icon, e.g. icon: "Materials". Defaults to matching the title.
   Bullets       in any text field, start a line with "- ". Use `backticks` for multi-line text, or \n inside "quotes".
 */
 

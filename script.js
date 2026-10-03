@@ -26,6 +26,9 @@ const BADGES = {
   'React': ['Re', '#20232a', '#61dafb'],
   'C++': ['C++', '#00599c']
 };
+
+/* Outline icons for the Skills chips. The key is matched against the chip's title
+   (or an optional `icon: "Materials"` field in data.js). */
 const CATEGORY_ICONS = {
   'Languages': '<path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/>',
   'Software & Tools': '<path d="M13 7 8.7 2.7a2.41 2.41 0 0 0-3.4 0L2.7 5.3a2.41 2.41 0 0 0 0 3.4L7 13"/><path d="m8 6 2-2"/><path d="m18 16 2-2"/><path d="m17 11 4.3 4.3c.94.94.94 2.46 0 3.4l-2.6 2.6c-.94.94-2.46.94-3.4 0L11 17"/><path d="M21.17 6.81a1 1 0 0 0-3.99-3.99L3.84 16.17a2 2 0 0 0-.5.83l-1.32 4.35a.5.5 0 0 0 .62.62l4.35-1.32a2 2 0 0 0 .83-.5z"/><path d="m15 5 4 4"/>',
@@ -36,6 +39,8 @@ const CATEGORY_ICONS = {
   'Materials': '<circle cx="12" cy="12" r="1"/><path d="M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03-.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z"/><path d="M15.7 15.7c4.52-4.54 6.54-9.87 4.5-11.9-2.03-2.04-7.36-.02-11.9 4.5-4.52 4.54-6.54 9.87-4.5 11.9 2.03 2.04 7.36.02 11.9-4.5Z"/>',
   'Machining': '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>'
 };
+const DEFAULT_ICON = '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 16v4M17 18h4"/>';
+const normKey = (s) => String(s || '').toLowerCase().replace(/&amp;/g, '&').replace(/[^a-z&]+/g, ' ').trim();
 
 function badgeHtml(tag) {
   const b = BADGES[tag];
@@ -45,9 +50,13 @@ function badgeHtml(tag) {
   return `<i class="ic" aria-hidden="true" style="--bg:${bg};--fg:${fg || '#fff'};--n:${text.length}"><b>${text}</b></i>`;
 }
 
-function categoryHtml(title) {
-  const p = CATEGORY_ICONS[title];
-  return p ? `<i class="ic ic-cat" aria-hidden="true"><svg viewBox="0 0 24 24">${p}</svg></i>` : '';
+function categoryHtml(die) {
+  const names = Object.keys(CATEGORY_ICONS);
+  const wants = [die.icon, die.title, die.heading, die.subtitle].map(normKey).filter(Boolean);
+  let key = names.find((k) => wants.includes(normKey(k)));
+  if (!key) key = names.find((k) => wants.some((w) => w.includes(normKey(k))));
+  const path = key ? CATEGORY_ICONS[key] : DEFAULT_ICON;
+  return `<i class="ic ic-cat" aria-hidden="true"><svg viewBox="0 0 24 24">${path}</svg></i>`;
 }
 
 function iconsHtml(items) {
@@ -59,12 +68,7 @@ function imgHtml(src, cls) {
 }
 
 function dieMarks(die, wafer) {
-  if (wafer === 'skills') {
-    const cat = categoryHtml(die.title);
-    if (cat) return { kind: 'icons', html: iconsHtml([cat]) };
-    const badges = (die.tags || []).map(badgeHtml).filter(Boolean).slice(0, 4);
-    if (badges.length) return { kind: 'icons', html: iconsHtml(badges) };
-  }
+  if (wafer === 'skills') return { kind: 'icons', html: iconsHtml([categoryHtml(die)]) };
   if (die.logo) return { kind: 'logo', html: imgHtml(die.logo, 'die-logo') };
   if (die.image) return { kind: 'photo', html: imgHtml(die.image, 'die-logo') + imgHtml(die.image, 'die-thumb') };
   return { kind: '', html: '' };
