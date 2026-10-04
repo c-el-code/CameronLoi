@@ -198,7 +198,7 @@ svg { display: block; }
 @keyframes hint-in { from { opacity: 0; transform: translateY(4px); } }
 
 /* control deck */
-.controls { --c1: 175, 220, 255; --c2: 255, 195, 225; width: 100%; max-width: 640px; display: flex; flex-direction: column; align-items: center; margin: 0 0 18px; }
+.controls { --c1: 175, 220, 255; --c2: 255, 195, 225; width: 100%; max-width: 640px; display: flex; flex-direction: column; align-items: center; margin: 0 0 16px; }
 .controls[data-wafer="experience"] { --c1: 165, 245, 225; --c2: 205, 235, 250; }
 .controls[data-wafer="skills"] { --c1: 255, 240, 185; --c2: 250, 218, 190; }
 .deck { width: 100%; display: flex; flex-direction: column; background: transparent; border: 1px solid var(--line); border-radius: 16px; box-shadow: none; }
@@ -237,7 +237,7 @@ svg { display: block; }
 .scope-btn:not(.on) .lens .ring { opacity: .55; }
 .scope-btn:hover { color: #4b5160; }
 .scope-btn.on .lens { transform: translateY(-1px); }
-.scope-hint { display: block; margin: 18px auto 0; padding: 0; min-height: 18px; font-size: 14px; font-weight: 500; line-height: 18px; color: var(--ink); text-align: center; cursor: default; pointer-events: none; -webkit-user-select: none; user-select: none; }
+.scope-hint { display: block; margin: 16px auto 0; padding: 0; min-height: 18px; font-size: 14px; font-weight: 500; line-height: 18px; color: var(--ink); text-align: center; cursor: default; pointer-events: none; -webkit-user-select: none; user-select: none; }
 .scope-hint.swap { animation: hint-in .35s ease; }
 @media (min-width: 640px) {
   .deck { flex-direction: row; }
