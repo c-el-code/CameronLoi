@@ -75,32 +75,53 @@ function dieMarks(die, wafer) {
 }
 
 const FAB_STEPS = [
-  ['Substrate', 220], ['Deposition', 560], ['Spin coat', 480], ['Mask align', 420], ['Exposure', 780],
-  ['Bake', 360], ['Develop', 460], ['Etch', 520], ['Strip', 560],
+  ['Substrate', 400], ['Deposition', 650], ['Spin coat', 600], ['Mask align', 550], ['Exposure', 850],
+  ['Bake', 450], ['Develop', 600], ['Etch', 700], ['Strip', 650],
 ];
+const FAB_REPLAY_MS = 8500;
+const FAB_LEAD_MS = 1500;
+const FAB_TAIL_MS = 1500;
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+let heroInView = true;
 
 function buildHero() {
   const hero = $('hero-name');
   hero.textContent = '';
   const text = document.createElement('span');
   text.className = 'fab-text';
-  text.textContent = `Hi, I'm ${SITE.name}.`;
+  const glyphs = document.createElement('span');
+  glyphs.className = 'fab-glyphs';
+  glyphs.textContent = `Hi, I'm ${SITE.name}.`;
+  text.appendChild(glyphs);
   hero.appendChild(text);
   if (!document.documentElement.classList.contains('fab-run')) return;
+  const scan = document.createElement('i');
+  scan.className = 'fab-scan';
+  text.appendChild(scan);
   const layers = document.createElement('span');
   layers.className = 'fab-layers';
   layers.setAttribute('aria-hidden', 'true');
-  layers.innerHTML = '<span class="fab-film"></span><span class="fab-resist"></span><span class="fab-mask"></span><span class="fab-beam"></span>'
-    + '<span class="fab-cap"><i class="fab-dot"></i><span class="fab-n"></span><span class="fab-label"></span></span>';
+  layers.innerHTML = '<span class="fab-film"></span><span class="fab-resist"></span><span class="fab-mask"></span>';
   hero.appendChild(layers);
+  $('fab-track').innerHTML = FAB_STEPS.map(() => '<i><b></b></i>').join('');
 }
 
-async function runFab() {
-  const hero = $('hero-name');
-  const layers = hero.querySelector('.fab-layers');
-  if (!layers) return;
-  const num = layers.querySelector('.fab-n');
-  const label = layers.querySelector('.fab-label');
+function showStep(i) {
+  const done = i >= FAB_STEPS.length;
+  [...$('fab-track').children].forEach((seg, j) => {
+    seg.classList.toggle('done', j < i);
+    seg.classList.toggle('on', j === i);
+    if (j === i) seg.style.setProperty('--d', `${FAB_STEPS[i][1]}ms`);
+  });
+  $('fab-num').textContent = `${String(Math.min(i + 1, FAB_STEPS.length)).padStart(2, '0')}/${String(FAB_STEPS.length).padStart(2, '0')}`;
+  const label = $('fab-label');
+  label.textContent = done ? 'Patterned' : FAB_STEPS[i][0];
+  label.classList.remove('swap');
+  void label.offsetWidth;
+  label.classList.add('swap');
+}
+
+async function playFab(hero) {
   let skipped = false;
   let wake = null;
   const skip = () => {
@@ -112,28 +133,52 @@ async function runFab() {
     wake = resolve;
     setTimeout(resolve, ms);
   });
-  await Promise.race([document.fonts.ready, pause(1500)]);
   for (let i = 0; i < FAB_STEPS.length && !skipped; i++) {
     hero.dataset.stage = i;
-    num.textContent = String(i + 1).padStart(2, '0');
-    label.textContent = FAB_STEPS[i][0];
-    label.classList.remove('swap');
-    void label.offsetWidth;
-    label.classList.add('swap');
+    showStep(i);
     await pause(FAB_STEPS[i][1]);
   }
+  ['pointerdown', 'keydown'].forEach((type) => removeEventListener(type, skip));
   hero.dataset.stage = 'done';
   hero.classList.add('fab-done');
-  if (skipped) {
-    layers.remove();
-    return;
+  showStep(FAB_STEPS.length);
+}
+
+function standby() {
+  showStep(0);
+  [...$('fab-track').children].forEach((seg) => seg.classList.remove('on'));
+}
+
+async function resetFab(hero) {
+  hero.classList.add('fab-out');
+  await sleep(450);
+  hero.classList.add('fab-still');
+  hero.classList.remove('fab-done');
+  delete hero.dataset.stage;
+  standby();
+  void hero.offsetWidth;
+  hero.classList.remove('fab-still', 'fab-out');
+}
+
+async function runFab() {
+  const hero = $('hero-name');
+  if (!hero.querySelector('.fab-layers')) return;
+  new IntersectionObserver(([entry]) => (heroInView = entry.isIntersecting), { threshold: 0.6 }).observe(hero);
+  await Promise.race([document.fonts.ready, sleep(1500)]);
+  const idle = () => !document.hidden && heroInView && !document.querySelector('.overlay.open');
+  const steps = $('fab-steps');
+  for (;;) {
+    while (!idle()) await sleep(400);
+    standby();
+    steps.classList.add('show');
+    await sleep(FAB_LEAD_MS);
+    await playFab(hero);
+    await sleep(FAB_TAIL_MS);
+    steps.classList.remove('show');
+    await sleep(FAB_REPLAY_MS - FAB_TAIL_MS);
+    while (!idle()) await sleep(400);
+    await resetFab(hero);
   }
-  num.textContent = '';
-  label.textContent = 'Patterned';
-  await new Promise((resolve) => setTimeout(resolve, 900));
-  hero.classList.add('fab-cap-off');
-  await new Promise((resolve) => setTimeout(resolve, 600));
-  layers.remove();
 }
 
 function setText() {
@@ -390,7 +435,7 @@ function openOverlay(id) {
   const el = $(id);
   el.classList.add('open');
   document.documentElement.classList.add('lock');
-  el.querySelector('.close').focus({ preventScroll: true });
+  el.querySelector('.close, .btn').focus({ preventScroll: true });
 }
 
 function closeOverlays() {
