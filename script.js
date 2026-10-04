@@ -74,10 +74,72 @@ function dieMarks(die, wafer) {
   return { kind: '', html: '' };
 }
 
+const FAB_STEPS = [
+  ['Substrate', 220], ['Deposition', 560], ['Spin coat', 480], ['Mask align', 420], ['Exposure', 780],
+  ['Bake', 360], ['Develop', 460], ['Etch', 520], ['Strip', 560],
+];
+
+function buildHero() {
+  const hero = $('hero-name');
+  hero.textContent = '';
+  const text = document.createElement('span');
+  text.className = 'fab-text';
+  text.textContent = `Hi, I'm ${SITE.name}.`;
+  hero.appendChild(text);
+  if (!document.documentElement.classList.contains('fab-run')) return;
+  const layers = document.createElement('span');
+  layers.className = 'fab-layers';
+  layers.setAttribute('aria-hidden', 'true');
+  layers.innerHTML = '<span class="fab-film"></span><span class="fab-resist"></span><span class="fab-mask"></span><span class="fab-beam"></span>'
+    + '<span class="fab-cap"><i class="fab-dot"></i><span class="fab-n"></span><span class="fab-label"></span></span>';
+  hero.appendChild(layers);
+}
+
+async function runFab() {
+  const hero = $('hero-name');
+  const layers = hero.querySelector('.fab-layers');
+  if (!layers) return;
+  const num = layers.querySelector('.fab-n');
+  const label = layers.querySelector('.fab-label');
+  let skipped = false;
+  let wake = null;
+  const skip = () => {
+    skipped = true;
+    if (wake) wake();
+  };
+  ['pointerdown', 'keydown'].forEach((type) => addEventListener(type, skip, { once: true }));
+  const pause = (ms) => new Promise((resolve) => {
+    wake = resolve;
+    setTimeout(resolve, ms);
+  });
+  await Promise.race([document.fonts.ready, pause(1500)]);
+  for (let i = 0; i < FAB_STEPS.length && !skipped; i++) {
+    hero.dataset.stage = i;
+    num.textContent = String(i + 1).padStart(2, '0');
+    label.textContent = FAB_STEPS[i][0];
+    label.classList.remove('swap');
+    void label.offsetWidth;
+    label.classList.add('swap');
+    await pause(FAB_STEPS[i][1]);
+  }
+  hero.dataset.stage = 'done';
+  hero.classList.add('fab-done');
+  if (skipped) {
+    layers.remove();
+    return;
+  }
+  num.textContent = '';
+  label.textContent = 'Patterned';
+  await new Promise((resolve) => setTimeout(resolve, 900));
+  hero.classList.add('fab-cap-off');
+  await new Promise((resolve) => setTimeout(resolve, 600));
+  layers.remove();
+}
+
 function setText() {
   document.title = `${SITE.name} | ${SITE.role}`;
   $('brand-name').textContent = SITE.brand;
-  $('hero-name').textContent = `Hi, I'm ${SITE.name}.`;
+  buildHero();
   $('hero-headline').textContent = SITE.headline;
   $('hero-summary').textContent = SITE.summary;
   $('hero-photo').src = SITE.photo;
@@ -305,12 +367,17 @@ function openProject(die) {
   $('p-tags-wrap').hidden = !(die.tags || []).length;
   $('p-tags').innerHTML = (die.tags || []).map((t) => `<span>${t}</span>`).join('');
   const photo = $('p-photo');
+  photo.classList.toggle('generated', !die.image);
+  $('project').querySelector('.card-body').scrollTop = 0;
   if (die.image) {
     photo.innerHTML = '';
     const img = new Image();
     img.alt = die.title;
     img.src = die.image;
-    img.onerror = () => (photo.innerHTML = placeholderDie(die.row * 9 + die.col));
+    img.onerror = () => {
+      photo.classList.add('generated');
+      photo.innerHTML = placeholderDie(die.row * 9 + die.col);
+    };
     photo.appendChild(img);
   } else {
     photo.innerHTML = placeholderDie(die.row * 9 + die.col);
@@ -322,11 +389,13 @@ function openOverlay(id) {
   lastFocus = document.activeElement;
   const el = $(id);
   el.classList.add('open');
+  document.documentElement.classList.add('lock');
   el.querySelector('.close').focus({ preventScroll: true });
 }
 
 function closeOverlays() {
   document.querySelectorAll('.overlay.open').forEach((el) => el.classList.remove('open'));
+  document.documentElement.classList.remove('lock');
   if (lastFocus) lastFocus.focus({ preventScroll: true });
 }
 
@@ -384,3 +453,4 @@ window.addEventListener('resize', () => {
   resizeTimer = setTimeout(fitText, 150);
 });
 if (new URLSearchParams(location.search).has('grid')) $('grid').classList.add('grid-debug');
+runFab();
