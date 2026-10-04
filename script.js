@@ -418,6 +418,7 @@ function openProject(die) {
     photo.innerHTML = '';
     const img = new Image();
     img.alt = die.title;
+    img.decoding = 'async';
     img.src = die.image;
     img.onerror = () => {
       photo.classList.add('generated');
@@ -467,6 +468,21 @@ function bind() {
   document.querySelectorAll('.scope-btn').forEach((btn) => btn.addEventListener('click', () => setZoom(btn.dataset.zoom === '1')));
   $('email-row').addEventListener('click', copyEmail);
   document.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+      const open = document.querySelector('.overlay.open');
+      if (open) {
+        const items = [...open.querySelectorAll('button, a[href]')].filter((el) => el.offsetParent !== null);
+        const first = items[0];
+        const last = items[items.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
     if (e.key === 'Escape') closeOverlays();
     if (document.querySelector('.overlay.open')) return;
     if (e.key === 'ArrowLeft') cycle(-1);
