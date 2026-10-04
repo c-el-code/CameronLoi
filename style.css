@@ -237,7 +237,7 @@ svg { display: block; }
 .scope-btn:not(.on) .lens .ring { opacity: .55; }
 .scope-btn:hover { color: #4b5160; }
 .scope-btn.on .lens { transform: translateY(-1px); }
-.scope-hint { display: block; margin: 16px auto 0; padding: 0; min-height: 18px; font-size: 14px; font-weight: 500; line-height: 18px; color: var(--ink); text-align: center; cursor: default; pointer-events: none; -webkit-user-select: none; user-select: none; }
+.scope-hint { display: block; margin: 13px auto 0; padding: 0; min-height: 18px; font-size: 14px; font-weight: 500; line-height: 18px; color: var(--ink); text-align: center; cursor: default; pointer-events: none; -webkit-user-select: none; user-select: none; }
 .scope-hint.swap { animation: hint-in .35s ease; }
 @media (min-width: 640px) {
   .deck { flex-direction: row; }
