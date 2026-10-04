@@ -92,7 +92,7 @@ function buildHero() {
   text.className = 'fab-text';
   const glyphs = document.createElement('span');
   glyphs.className = 'fab-glyphs';
-  glyphs.textContent = `Hi, I'm ${SITE.name}.`;
+  glyphs.textContent = `Hi, I'm ${SITE.name}`;
   text.appendChild(glyphs);
   hero.appendChild(text);
   if (!document.documentElement.classList.contains('fab-run')) return;
