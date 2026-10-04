@@ -38,6 +38,7 @@ svg { display: block; }
 .title h1 { margin: 0; font-size: 40px; font-weight: 800; letter-spacing: -.035em; line-height: 1.15; }
 .title h2 { margin: 14px 0 0; font-size: 16px; font-weight: 500; letter-spacing: -.005em; }
 .title p { margin: 14px 0 0; font-size: 14px; line-height: 1.6; color: var(--muted); }
+.fab-run .title h2 { margin-top: 6px; }
 @media (min-width: 768px) { .title { margin-bottom: 90px; } .title h1 { font-size: 52px; } .title h2 { font-size: 18px; } .title p { font-size: 15px; } }
 
 /* name reveal */
@@ -201,14 +202,14 @@ svg { display: block; }
 .controls[data-wafer="experience"] { --c1: 165, 245, 225; --c2: 205, 235, 250; }
 .controls[data-wafer="skills"] { --c1: 255, 240, 185; --c2: 250, 218, 190; }
 .deck { width: 100%; display: flex; flex-direction: column; background: transparent; border: 1px solid var(--line); border-radius: 16px; box-shadow: none; }
-.deck-sec { padding: 14px 16px 12px; }
+.deck-sec { padding: 11px 16px 9px; }
 .deck-sec + .deck-sec { border-top: 1px solid var(--line); }
-.deck-label { margin: 0 0 12px; font-size: 12px; font-weight: 500; line-height: 1; letter-spacing: .14em; text-transform: uppercase; color: var(--ink); }
+.deck-label { margin: 0 0 9px; font-size: 12px; font-weight: 500; line-height: 1; letter-spacing: .14em; text-transform: uppercase; color: var(--ink); }
 
-.cassette { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); padding-bottom: 8px; }
+.cassette { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); padding-bottom: 4px; }
 .thumb { position: absolute; left: 0; bottom: 0; height: 2px; width: var(--w, 0); transform: translateX(var(--x, 0)); background: var(--ink); border-radius: 2px; pointer-events: none; }
 .thumb.ready { transition: transform .45s cubic-bezier(.2, .8, .2, 1), width .45s cubic-bezier(.2, .8, .2, 1); }
-.tab { position: relative; display: flex; flex-direction: column; align-items: center; gap: 7px; padding: 0 4px 4px; color: var(--muted); transition: color .25s; }
+.tab { position: relative; display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 0 4px 2px; color: var(--muted); transition: color .25s; }
 .tab + .tab::before { content: ''; position: absolute; left: 0; top: 2px; bottom: 6px; width: 1px; background: var(--line); }
 .tab:hover, .tab.on { color: var(--ink); }
 .tab:focus-visible, .scope-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 6px; }
@@ -245,11 +246,11 @@ svg { display: block; }
 @media (min-width: 640px) {
   .deck { flex-direction: row; }
   .deck-wafer { flex: 1; }
-  .deck-sec { padding: 16px 20px 14px; }
+  .deck-sec { padding: 11px 20px 9px; }
   .deck-sec + .deck-sec { border-top: 0; border-left: 1px solid var(--line); }
   .deck-obj { padding-inline: 28px; }
   .tab-label { font-size: 17px; }
-  .scope-hint { font-size: 15px; }
+  .scope-hint { font-size: 8px; }
   .deck-obj { display: flex; flex-direction: column; }
   .turret { flex: 1; align-items: center; justify-content: center; gap: 30px; padding-bottom: 0; }
   .scope-btn { flex-direction: column; gap: 9px; padding: 2px 6px; font-size: 19px; }

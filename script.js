@@ -78,6 +78,7 @@ const FAB_STEPS = [
   ['Substrate', 400], ['Deposition', 650], ['Spin coat', 600], ['Mask align', 550], ['Exposure', 850],
   ['Bake', 450], ['Develop', 600], ['Etch', 700], ['Strip', 650],
 ];
+const FAB_SLOW = 1.15;
 const FAB_REPLAY_MS = 8500;
 const FAB_LEAD_MS = 1500;
 const FAB_TAIL_MS = 1500;
@@ -111,7 +112,7 @@ function showStep(i) {
   [...$('fab-track').children].forEach((seg, j) => {
     seg.classList.toggle('done', j < i);
     seg.classList.toggle('on', j === i);
-    if (j === i) seg.style.setProperty('--d', `${FAB_STEPS[i][1]}ms`);
+    if (j === i) seg.style.setProperty('--d', `${FAB_STEPS[i][1] * FAB_SLOW}ms`);
   });
   $('fab-num').textContent = `${String(Math.min(i + 1, FAB_STEPS.length)).padStart(2, '0')}/${String(FAB_STEPS.length).padStart(2, '0')}`;
   const label = $('fab-label');
@@ -136,7 +137,7 @@ async function playFab(hero) {
   for (let i = 0; i < FAB_STEPS.length && !skipped; i++) {
     hero.dataset.stage = i;
     showStep(i);
-    await pause(FAB_STEPS[i][1]);
+    await pause(FAB_STEPS[i][1] * FAB_SLOW);
   }
   ['pointerdown', 'keydown'].forEach((type) => removeEventListener(type, skip));
   hero.dataset.stage = 'done';
