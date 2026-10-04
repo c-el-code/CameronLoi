@@ -31,9 +31,9 @@ svg { display: block; }
 .nav-links .link:hover { color: #000; }
 
 /* hero */
-.main { flex: 1; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 1400px; margin: 0 auto; padding: 24px 16px 100px; }
+.main { flex: 1; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 1400px; margin: 0 auto; padding: 30px 16px 100px; }
 .title { text-align: center; margin-bottom: 70px; max-width: 660px; display: flex; flex-direction: column; align-items: center; }
-.portrait { width: 130px; height: 130px; padding: 4px; border-radius: 22px; background: #fff; border: 1px solid var(--line); box-shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 8px 24px -6px rgba(15, 23, 42, .14); margin-bottom: 20px; }
+.portrait { width: 130px; height: 130px; padding: 4px; border-radius: 22px; background: #fff; border: 1px solid var(--line); box-shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 8px 24px -6px rgba(15, 23, 42, .14); margin-bottom: 14px; }
 .portrait img { width: 100%; height: 100%; object-fit: cover; border-radius: 18px; }
 .title h1 { margin: 0; font-size: 40px; font-weight: 800; letter-spacing: -.035em; line-height: 1.15; }
 .title h2 { margin: 14px 0 0; font-size: 16px; font-weight: 500; letter-spacing: -.005em; }
@@ -198,7 +198,7 @@ svg { display: block; }
 @keyframes hint-in { from { opacity: 0; transform: translateY(4px); } }
 
 /* control deck */
-.controls { --c1: 175, 220, 255; --c2: 255, 195, 225; width: 100%; max-width: 640px; display: flex; flex-direction: column; align-items: center; margin: 0 0 4px; }
+.controls { --c1: 175, 220, 255; --c2: 255, 195, 225; width: 100%; max-width: 640px; display: flex; flex-direction: column; align-items: center; margin: 0 0 10px; }
 .controls[data-wafer="experience"] { --c1: 165, 245, 225; --c2: 205, 235, 250; }
 .controls[data-wafer="skills"] { --c1: 255, 240, 185; --c2: 250, 218, 190; }
 .deck { width: 100%; display: flex; flex-direction: column; background: transparent; border: 1px solid var(--line); border-radius: 16px; box-shadow: none; }
@@ -239,9 +239,7 @@ svg { display: block; }
 .scope-btn.on .lens { transform: translateY(-1px); }
 .scope.nudge .scope-btn[data-zoom="1"] .lens { animation: nudge-lens 2.4s ease-in-out infinite; }
 @keyframes nudge-lens { 0%, 100% { filter: drop-shadow(0 0 0 rgba(99, 102, 241, 0)); } 50% { filter: drop-shadow(0 0 7px rgba(99, 102, 241, .85)); } }
-.scope-hint { display: block; margin: 4px auto 0; padding: 0; min-height: 18px; font-size: 14px; font-weight: 500; line-height: 18px; color: var(--ink); text-align: center; cursor: default; transition: color .2s; }
-.scope-hint.can-zoom { cursor: pointer; }
-.scope-hint.can-zoom:hover { text-decoration: underline; text-underline-offset: 3px; }
+.scope-hint { display: block; margin: 10px auto 0; padding: 0; min-height: 18px; font-size: 14px; font-weight: 500; line-height: 18px; color: var(--ink); text-align: center; cursor: default; pointer-events: none; -webkit-user-select: none; user-select: none; }
 .scope-hint.swap { animation: hint-in .35s ease; }
 @media (min-width: 640px) {
   .deck { flex-direction: row; }
