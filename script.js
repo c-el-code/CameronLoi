@@ -99,16 +99,20 @@ function buildWafer() {
 
 function buildDock() {
   $('tabs').innerHTML = '<span class="thumb" id="tab-pill"></span>' + keys
-    .map((k) => `
-      <button class="tab" data-wafer="${k}">
+    .map((k, i) => `
+      <button class="tab" data-wafer="${k}" aria-pressed="false">
         <span class="mini mini-${k}"><span class="sheen sheen-${k}"></span><span class="mini-cells">${'<i></i>'.repeat(9)}</span></span>
+        <span class="slot-no">0${i + 1}</span>
         <span class="tab-label" data-t="${WAFERS[k].label}">${WAFERS[k].label}</span>
       </button>`)
     .join('');
 }
 
 function applyTabs(key) {
-  document.querySelectorAll('.tab').forEach((el) => el.classList.toggle('on', el.dataset.wafer === key));
+  document.querySelectorAll('.tab').forEach((el) => {
+    el.classList.toggle('on', el.dataset.wafer === key);
+    el.setAttribute('aria-pressed', el.dataset.wafer === key);
+  });
   $('controls').dataset.wafer = key;
   movePill();
 }

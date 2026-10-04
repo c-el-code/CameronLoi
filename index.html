@@ -34,23 +34,20 @@
   </div>
 
   <div class="controls" id="controls">
-    <div class="step">
-      <div class="step-head"><span class="step-num">1</span><p class="step-title">Select your wafer</p></div>
-      <div class="capsule dock" id="dock">
-        <div class="track dock-tabs" id="tabs"></div>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-head"><span class="step-num">2</span><button type="button" class="scope-hint" id="scope-hint"></button></div>
-      <div class="capsule scope nudge" id="scope">
-        <span class="capsule-label"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="6"/><path d="M16 16l5 5"/></svg>Objective lens</span>
-        <div class="track scope-opts" role="group" aria-label="Magnification">
-          <span class="thumb" id="scope-pill"></span>
-          <button class="scope-btn on" data-zoom="0" aria-pressed="true">1.25x</button>
-          <button class="scope-btn" data-zoom="1" aria-pressed="false">5x</button>
+    <div class="deck">
+      <section class="deck-sec deck-wafer">
+        <p class="deck-label">Wafer</p>
+        <div class="dock" id="dock"><div class="cassette" id="tabs" role="group" aria-label="Wafer"></div></div>
+      </section>
+      <section class="deck-sec deck-obj scope nudge" id="scope">
+        <p class="deck-label">Objective</p>
+        <div class="turret" role="group" aria-label="Magnification">
+          <button class="scope-btn on" data-zoom="0" aria-pressed="true"><i class="lens"></i><span>1.25&times;</span></button>
+          <button class="scope-btn" data-zoom="1" aria-pressed="false"><i class="lens"></i><span>5&times;</span></button>
         </div>
-      </div>
+      </section>
     </div>
+    <button type="button" class="scope-hint" id="scope-hint"></button>
   </div>
 
   <div class="stage" id="stage">
