@@ -78,8 +78,8 @@ const FAB_STEPS = [
   ['Substrate', 400], ['Deposition', 650], ['Spin coat', 600], ['Mask align', 550], ['Exposure', 850],
   ['Bake', 450], ['Develop', 600], ['Etch', 700], ['Strip', 650],
 ];
-const FAB_SLOW = 1.15;
-const FAB_REPLAY_MS = 8500;
+const FAB_SLOW = 1.1;
+const FAB_REPLAY_MS = 9000;
 const FAB_LEAD_MS = 1500;
 const FAB_TAIL_MS = 1500;
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
