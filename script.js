@@ -109,7 +109,6 @@ function buildDock() {
 
 function applyTabs(key) {
   document.querySelectorAll('.tab').forEach((el) => el.classList.toggle('on', el.dataset.wafer === key));
-  $('dock-count').textContent = `${keys.indexOf(key) + 1} of ${keys.length}`;
   $('controls').dataset.wafer = key;
   movePill();
 }
@@ -212,7 +211,6 @@ function setZoom(on) {
 async function switchWafer(key, step) {
   if (key === current || switching) return;
   switching = true;
-  $('dock').classList.remove('nudge');
   const dir = step || (keys.indexOf(key) > keys.indexOf(current) ? 1 : -1);
   const quick = reduceMotion();
   applyTabs(key);
@@ -340,8 +338,6 @@ async function copyEmail() {
 }
 
 function bind() {
-  $('prev').addEventListener('click', () => cycle(-1));
-  $('next').addEventListener('click', () => cycle(1));
   $('tabs').addEventListener('click', (e) => {
     const tab = e.target.closest('.tab');
     if (tab) switchWafer(tab.dataset.wafer);
