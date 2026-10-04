@@ -276,7 +276,6 @@ function updateHint() {
   const noun = WAFERS[current].label.toLowerCase();
   const text = zoomed ? `Click any chip to inspect my ${noun}.` : `Zoom in to inspect my ${noun}!`;
   const hint = $('scope-hint');
-  hint.classList.toggle('can-zoom', !zoomed);
   if (hint.textContent === text) return;
   hint.textContent = text;
   hint.classList.remove('swap');
@@ -466,7 +465,6 @@ function bind() {
   document.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', closeOverlays));
   document.querySelectorAll('.overlay').forEach((el) => el.addEventListener('click', (e) => e.target === el && closeOverlays()));
   document.querySelectorAll('.scope-btn').forEach((btn) => btn.addEventListener('click', () => setZoom(btn.dataset.zoom === '1')));
-  $('scope-hint').addEventListener('click', () => !zoomed && setZoom(true));
   $('email-row').addEventListener('click', copyEmail);
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeOverlays();
