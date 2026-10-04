@@ -32,13 +32,13 @@ svg { display: block; }
 
 /* hero */
 .main { flex: 1; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 1400px; margin: 0 auto; padding: 24px 16px 100px; }
-.title { text-align: center; margin-bottom: 60px; max-width: 660px; display: flex; flex-direction: column; align-items: center; }
+.title { text-align: center; margin-bottom: 70px; max-width: 660px; display: flex; flex-direction: column; align-items: center; }
 .portrait { width: 130px; height: 130px; padding: 4px; border-radius: 22px; background: #fff; border: 1px solid var(--line); box-shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 8px 24px -6px rgba(15, 23, 42, .14); margin-bottom: 20px; }
 .portrait img { width: 100%; height: 100%; object-fit: cover; border-radius: 18px; }
 .title h1 { margin: 0; font-size: 40px; font-weight: 800; letter-spacing: -.035em; line-height: 1.15; }
 .title h2 { margin: 14px 0 0; font-size: 16px; font-weight: 500; letter-spacing: -.005em; }
 .title p { margin: 14px 0 0; font-size: 14px; line-height: 1.6; color: var(--muted); }
-@media (min-width: 768px) { .title { margin-bottom: 78px; } .title h1 { font-size: 52px; } .title h2 { font-size: 18px; } .title p { font-size: 15px; } }
+@media (min-width: 768px) { .title { margin-bottom: 90px; } .title h1 { font-size: 52px; } .title h2 { font-size: 18px; } .title p { font-size: 15px; } }
 
 /* wafer */
 .stage { position: relative; container-type: inline-size; width: 93%; max-width: 680px; aspect-ratio: 1; margin: 4px 0; user-select: none; --z: 1; --glow: 99, 102, 241, .16; }
@@ -143,7 +143,7 @@ svg { display: block; }
 @keyframes hint-in { from { opacity: 0; transform: translateY(4px); } }
 
 /* control deck */
-.controls { --c1: 175, 220, 255; --c2: 255, 195, 225; width: 100%; max-width: 640px; display: flex; flex-direction: column; align-items: center; margin: 0 0 18px; }
+.controls { --c1: 175, 220, 255; --c2: 255, 195, 225; width: 100%; max-width: 640px; display: flex; flex-direction: column; align-items: center; margin: 0 0 10px; }
 .controls[data-wafer="experience"] { --c1: 165, 245, 225; --c2: 205, 235, 250; }
 .controls[data-wafer="skills"] { --c1: 255, 240, 185; --c2: 250, 218, 190; }
 .deck { width: 100%; display: flex; flex-direction: column; background: transparent; border: 1px solid var(--line); border-radius: 16px; box-shadow: none; }
@@ -174,7 +174,7 @@ svg { display: block; }
 
 .turret { display: flex; gap: 26px; padding-bottom: 2px; }
 .scope-btn { display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--ink); font-size: 18px; font-weight: 500; line-height: 1; letter-spacing: -.005em; font-variant-numeric: tabular-nums; }
-.lens { display: block; width: 36px; height: 54px; opacity: .45; transition: opacity .3s, transform .3s; }
+.lens { display: block; width: 36px; height: 54px; opacity: .35; transition: opacity .3s, transform .3s; }
 .lens .band { fill: #6b7384; }
 .scope-btn[data-zoom="1"] .lens .band { fill: #b8412c; }
 .scope-btn:hover .lens { opacity: .8; }
