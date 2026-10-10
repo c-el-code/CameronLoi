@@ -51,7 +51,7 @@ const WAFERS = {
         what: "Computer-vision pipeline that detects individual badminton rallies from match footage and automatically splices them into separate clips. Includes an interactive interface to review and correct rallies with a synchronized scoreboard.",
         how: "",
         why: "",
-        tags: []
+        tags: ["Python", "Computer Vision"]
       },
       {
         row: 7,
@@ -65,7 +65,7 @@ const WAFERS = {
 Hands-free gesture, voice, and eye tracking control system for healthcare, productivity, and presentations.`,
         how: "",
         why: "",
-        tags: ["AI / ML", "Control Systems"]
+        tags: []
       },
       {
         row: 8,
@@ -79,7 +79,7 @@ Hands-free gesture, voice, and eye tracking control system for healthcare, produ
 Voice-activated study assistant that acts as your personal TA while you watch lecture videos. Makes lecture videos interactive using voice commands, with real-time Q&A, tailored quizzes, and summaries.`,
         how: "",
         why: "",
-        tags: ["AI / ML", "Control Systems"]
+        tags: []
       },
       {
         row: 8,
@@ -93,7 +93,7 @@ Voice-activated study assistant that acts as your personal TA while you watch le
 Pitched SnapStyle, an e-commerce marketplace for Snapchat letting users virtually try on clothing via AR and buy directly in-app, with market and financial analysis. Pitched to a panel of judges from KPMG, Monitor Deloitte, EY, Bain & Company, and BCG.`,
         how: "",
         why: "",
-        tags: ["Consulting", "SWOT Analysis", "Financial Projections", "Pitch"]
+        tags: ["Consulting", "SWOT Analysis", "Financial Projections"]
       },
       {
         row: 8,
@@ -121,7 +121,7 @@ Web app mapping optimal sponge park locations for the City of Toronto to address
 Designed and constructed a Triboelectric Nanogenerator (TENG) that generated electrical output from mechanical motion using contact electrification. The final prototype produced 3.4 V at 45 Hz.`,
         how: "",
         why: "",
-        tags: []
+        tags: ["Solidworks", "3D Printing", "Design"]
       }
     ]
   },

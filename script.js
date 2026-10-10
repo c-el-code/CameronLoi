@@ -412,6 +412,7 @@ function openProject(die) {
   $('p-tags-wrap').hidden = !(die.tags || []).length;
   $('p-tags').innerHTML = (die.tags || []).map((t) => `<span>${t}</span>`).join('');
   const photo = $('p-photo');
+  photo.hidden = !die.image;
   photo.classList.toggle('generated', !die.image);
   $('project').querySelector('.card-body').scrollTop = 0;
   if (die.image) {
@@ -426,7 +427,7 @@ function openProject(die) {
     };
     photo.appendChild(img);
   } else {
-    photo.innerHTML = placeholderDie(die.row * 9 + die.col);
+    photo.innerHTML = '';
   }
   openOverlay('project');
 }
